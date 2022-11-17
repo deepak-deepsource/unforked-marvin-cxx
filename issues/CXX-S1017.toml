@@ -1,0 +1,48 @@
+title = "Function that may return negative value used as an array-index"
+weight = 70
+severity = "major"
+verbose_name = "array-index-underflow"
+category = "security"
+description = """
+Array indexes represent `size` of an array and hence can only be zero or greater, 
+thus should be an unsigned integer value. Hence, a function that returns a signed 
+value for indexing is considered a security risk or bug. It may lead to an array 
+index underflow, leading to bad bound checking.
+
+<!--more-->
+
+Consider returning an unsigned-integer value from the function in question.
+
+## Examples
+
+### Bad practice
+
+```cpp
+int get_index(void) {..}
+int main(int argc, char* argv[]) {
+    int i = get_index();
+    if (i < 230) {
+        auto argn = argv[i]; // get_index can be negative which is then implicitly converted 
+        // producing a possible underflow and segmentation-fault or insecure memory access.
+    }
+}
+```
+
+### Recommended
+
+```cpp
+unsigned int get_index(void) {..}
+int main(int argc, char* argv[]) {
+    unsigned int i = get_index();
+    if (i < 230) {
+        auto argn = argv[i]; // no possible underflow of `i`
+        // ..
+    }
+}
+```
+
+## References
+- [CWE-129: Improper Validation of Array Index](https://cwe.mitre.org/data/definitions/129.html)
+"""
+tags = ["cwe-129"]
+recommended = true

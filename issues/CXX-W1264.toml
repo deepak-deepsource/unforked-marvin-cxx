@@ -1,0 +1,33 @@
+title = "Potential divide by zero"
+weight = 70
+severity = "major"
+verbose_name = "potential-divide-by-zero"
+category = "bug-risk"
+description = """
+Dividing by zero can cause a runtime error, leading to a crash. Because as such dividing by zero is undefined behaviour.
+
+<!--more-->
+
+Dividing by zero on UNIX environments will crash the program due to a `SIGFPE` signal.
+
+## Examples
+
+### Bad practice
+
+```cpp
+int x = 10 / 0; // is likely a mistake
+int y = 0; // is likely a mistake
+int z = 1 / y;
+```
+
+### Recommended
+
+```cpp
+int x = 10 / 1;
+int y = 1;
+int z = 1 / y;
+```
+### References
+- [Divide by zero in C is Undefined.](https://stackoverflow.com/questions/3004095/division-by-zero-undefined-behavior-or-implementation-defined-in-c-and-or-c)
+"""
+audit_required = true

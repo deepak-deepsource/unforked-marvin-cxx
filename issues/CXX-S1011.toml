@@ -1,0 +1,32 @@
+title = "Potential loss of information in assignment or cast"
+weight = 70
+severity = "major"
+verbose_name = "lossy-cast-or-assign"
+category = "security"
+description = """
+The improper casting of data to lossy or non-layout-matching structures is considered
+highly risky. Such conversions may trivially lead to memory corruption, possible 
+out-of-bound access, and more if improperly handled.
+
+<!--more-->
+
+Consider verifying if each such conversion is valid and non-critical to the 
+functioning of code. You may still want to get rid of such conversions as they 
+may lead to vulnerabilities if misused by another in the future.
+
+## Examples
+
+### Bad practice
+
+```cpp
+double db = 10.0123132970923;
+float ft_c = db;           // potentially lossy assignment
+float ft_cpp = (float*)db; // potentially lossy cast
+```
+
+## References
+- [CWE-681: Incorrect conversion between Numeric Types](https://cwe.mitre.org/data/definitions/681.html)
+- [Vulnerabilities due to Incorrect Type Conversion or Cast](https://cyber.vumetric.com/vulns/category/incorrect-type-conversion-or-cast/)
+"""
+tags = ["cwe-681"]
+archived = true

@@ -1,0 +1,28 @@
+title = "Special symbols like `*`, `\"`, `'`, `\\` and `/*` found in header names"
+weight = 31
+severity = "minor"
+verbose_name = "bad-header-name"
+category = "antipattern"
+description = """
+Using special-meaning characters in header names can produce errors in parsing.
+
+Consider cleaning up header names.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+#include "header//file.h"
+#include "header""file.h" // will not parse properly 
+```
+
+### Recommended
+
+```cpp
+#include "header_file.h"
+#include "header_file.h" 
+```
+"""

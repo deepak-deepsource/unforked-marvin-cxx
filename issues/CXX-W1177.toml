@@ -1,0 +1,33 @@
+title = "Use of basic numeric types over expressive fixed-size typedefs (e.g., `uint32_t`)"
+weight = 31
+severity = "minor"
+verbose_name = "typedef-sized-signed"
+category = "antipattern"
+description = """
+Using types that indicate size and signedness makes it clear to the reader the 
+semantics of the operations being performed and removes the arbitrary platform
+dependency of the code due to the use of basic numeric types.
+
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int main() {
+    long long int value = 10;
+    printf("%lld", value);
+}
+```
+
+### Recommended
+
+```cpp
+int32_t main() {
+    int64_t value = 10;
+    printf("%lld", value);
+}
+```
+"""

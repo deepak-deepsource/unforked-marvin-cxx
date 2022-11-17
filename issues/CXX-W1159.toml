@@ -1,0 +1,38 @@
+title = "Function name also used as variable"
+weight = 31
+severity = "minor"
+verbose_name = "fn-name-as-var"
+category = "antipattern"
+description = """
+Using function names as variable names can be confusing for the reader of the code,
+and can cause a mix-up in what the intent of the programmer is.
+
+Hence, consider using a unique name for variables & functions.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+void choice() { return 'heads'; }
+
+void foo() {
+    int choice = 'tails';
+    // ...
+}
+```
+
+### Recommended
+
+```cpp
+void get_choice() { return 'heads'; }
+
+void foo() {
+    int choice = 'tails';
+    // ...
+}
+```
+"""
+archived = true

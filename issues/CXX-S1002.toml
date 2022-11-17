@@ -1,0 +1,43 @@
+title = "Unchecked parameter value used in array index"
+weight = 70
+severity = "major"
+verbose_name = "array-index-param-unchecked"
+category = "security"
+description = """
+Index variables need to be bound checked against the valid range of the array,
+as trying to read beyond the array buffer could cause segmentation-faults.
+
+<!--more-->
+
+If the value in question is a function parameter, consider performing the bound
+check within the function itself, so the code doesn't depend on the caller
+being responsible for ensuring valid bounds.
+
+## Examples
+
+### Bad practice
+
+```cpp
+void index(int var) {
+    int arr[10] = {};
+    arr[var] = "1"; // very risky security vulnerability, as it may
+    // Allow for reading or writing to unintended parts of the memory.
+}
+```
+
+### Recommended
+
+```cpp
+void index(int var) {
+    int arr[10] = {};
+    if (var >= 0 && var < 10) { // bound check before access
+        arr[var] = "1";
+    }
+}
+```
+
+## References
+- [CWE-129: Improper Validation of Array Index](https://cwe.mitre.org/data/definitions/129.html)
+"""
+tags = ["cwe-129"]
+archived = true

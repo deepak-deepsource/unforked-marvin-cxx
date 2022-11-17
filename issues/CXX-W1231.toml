@@ -1,0 +1,41 @@
+title = "Multiple side-effects in an expression"
+weight = 31
+severity = "minor"
+verbose_name = "multi-side-effects"
+category = "antipattern"
+description = """
+Having multiple side effects in an expression can be quite confusing for the reader of the code,
+and it is preferable to separate side effects into multiple expressions.
+
+<!--more-->
+
+
+## Examples
+
+### Bad practice
+
+```cpp
+int items[10] = {};
+for (size_t i = 0; i < 10; i++) {
+    // increment items[i] if touched
+    int item = items[i++]++;
+    // use the `og` value of item
+    // ..
+}
+```
+
+### Recommended
+
+```cpp
+int items[10] = {};
+for (size_t i = 0; i < 10; i++) {
+    // increment `items[i]` if touched, skip next `i`
+    int item = items[i];
+    items[i] += 1;
+    i += 1;
+    // use the `og` value of item
+    // ..
+}
+```
+"""
+

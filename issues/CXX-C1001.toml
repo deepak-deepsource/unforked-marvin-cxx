@@ -1,0 +1,58 @@
+title = "Missing unconditional break statement in switch clause"
+
+weight = 31
+severity = "minor"
+verbose_name = "switch-case-break"
+category = "antipattern"
+description = """
+Fall-through in switch cases is often considered risky.
+Hence consider adding an unconditional `break` for each switch clause.
+
+<!--more-->
+
+You may want to ignore this issue if your code-style makes extensive use of fall-through pattern.
+
+## Examples
+
+### Bad practice
+
+```cpp
+int main() {
+    switch 1 {
+        case 0: {
+            // [fallthrough]
+        };
+        case 1: {
+            // [fallthrough]
+        };
+        case 2: {
+            // ..
+        } break;
+        default: {
+            // ..
+        }
+    }
+}
+```
+
+### Recommended
+
+```cpp
+int main() {
+    switch 1 {
+        case 0: {
+            // ..
+        } break;
+        case 1: {
+            // ..
+        } break;
+        case 2: {
+            // ..
+        } break;
+        default: {
+            // ..
+        }
+    }
+}
+```
+"""

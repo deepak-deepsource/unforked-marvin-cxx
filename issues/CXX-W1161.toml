@@ -1,0 +1,33 @@
+title = "Assignment in condition should be parenthesized"
+weight = 50
+severity = "major"
+verbose_name = "assign-non-parenthesized"
+category = "bug-risk"
+description = """
+Assignment in condition should be parenthesized, when used in a conditional operator.
+Otherwise there can be issues with precedence, as assignment is the operator with least precedence.
+Consider putting assignment in condition in round braces.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int x = 10;
+if (x = x * 2 > 20) {  // This will assign x as false, not x * 2
+    // ..
+}
+```
+
+### Recommended
+
+```cpp
+int x = 10;
+if ((x = x * 2) > 20) {
+    // ..
+}
+```
+"""
+

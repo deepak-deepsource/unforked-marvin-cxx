@@ -1,0 +1,51 @@
+title = "Variable used in `strncpy` or `malloc` could have negative value"
+weight = 70
+severity = "major"
+verbose_name = "size-variable-underflow"
+category = "security"
+description = """
+The functions `strncpy` & `malloc` accept variables as `size` which can't be 
+negative, hence using a negatively valued variable in them would lead to 
+`underflow-bug` and might introduce a security vulnerability.
+
+<!--more-->
+
+Consider only using unsigned variables in such functions. Underflowing the 
+allocation size can often lead to a `heap-overflow` potentially crashing 
+the program.
+
+## Examples
+
+### Bad practice
+
+```cpp
+void foo(int size) {
+    void* mem = malloc(size); // can be -ve
+}
+
+void bar(int size) { // `size` possibly -ve
+  void *mem = nullptr;
+  if (size > 0)
+    mem = malloc(size);
+}
+```
+
+### Recommended
+
+```cpp
+void foo(size_t size) {
+    void* mem = malloc(size);
+}
+
+void bar(size_t size) {
+  void *mem = nullptr;
+  if (size > 0)
+    mem = malloc(size);
+}
+```
+
+## References
+- [CWE-191](https://cwe.mitre.org/data/definitions/191.html)
+"""
+tags = ["cwe-191"]
+recommended = true

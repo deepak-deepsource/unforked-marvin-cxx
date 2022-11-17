@@ -1,0 +1,33 @@
+title = "Found an expression or function as the operand of `sizeof(..)`"
+weight = 31
+severity = "minor"
+verbose_name = "sizeof-side-effect"
+category = "antipattern"
+description = """
+The value returned by the `sizeof()` function will be lost if its operand is
+a function call or expression. The operand should generally be a variable.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int* foo() { return (int*)malloc(16); }
+int main() {
+    size_t size = sizeof(foo()); // lost pointer
+}
+```
+
+### Recommended
+
+```cpp
+int* foo() { return (int*)malloc(16); }
+int main() {
+    int* value = foo();
+    size_t size = sizeof(value);
+    free(int);
+}
+```
+"""

@@ -1,0 +1,32 @@
+title = "Non-void functions failing to return a value"
+weight = 70
+severity = "major"
+verbose_name = "non-void-fn-without-return"
+category = "bug-risk"
+description = """
+Non-void functions need to return a value.
+Consider returning a proper value from such a function.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int func_returning_no_value() {
+    return;
+}
+int func_not_returning() {}
+```
+
+### Recommended
+
+```cpp
+int func_returning_value() {
+    return 0;
+}
+int func_returning() { return 1; }
+```
+"""
+archived = true

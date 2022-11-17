@@ -1,0 +1,37 @@
+title = "Missing return in one or more exit paths from a non-void function"
+weight = 31
+severity = "minor"
+verbose_name = "explicit-ret-at-all-exits"
+category = "antipattern"
+description = """
+Non-void functions must return a value. All exit paths from such functions
+should have explicit returns to ensure none of them ever miss returning a value.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+bool test(bool cond) {
+    if (cond) {
+        return true;
+    } else {
+        // missing return
+    }
+}
+```
+
+### Recommended
+
+```cpp
+bool test(bool cond) {
+    if (cond) {
+        return true;
+    } else {
+        return false;
+    }
+}
+```
+"""

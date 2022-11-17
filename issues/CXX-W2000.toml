@@ -1,0 +1,48 @@
+title = "Possibly assignment in-place of equality"
+weight = 35
+severity = "minor"
+verbose_name = "assignment-in-if-condition"
+category = "bug-risk"
+description = """
+An assignment in the condition of `if` statement is bug-prone. Such assignments could be intended as equality tests.
+
+<!--more-->
+Conditional construct `if` accepts boolean expression. When the expression type is not boolean, the expression is type-casted to a boolean value. This nature allows the assignment in the condition of `if` statement.
+
+Consider performing the assignment before `if` statement. Also, if the scope of the assignment variable is the `if` and `else` block, then declare the variable in the condition of `if` statement.
+
+## Examples
+
+### Bug-prone practice
+
+```cpp
+int foo(void) {
+  int state{0};
+
+  if (state = GetState()) {
+    ...
+  }
+}```
+
+### Recommended
+
+```cpp
+int foo(void) {
+  int state{0};
+
+  state = GetState()
+  if (state) {
+    ...
+  }
+}```
+
+or
+
+```cpp
+int foo(void) {
+  if (int state = GetState()) { /// only if the scope of `state` is if statement
+    ...
+  }
+}```
+"""
+archived = true

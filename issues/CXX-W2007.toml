@@ -1,0 +1,39 @@
+title = "Incorrect usage of erase-remove pattern"
+weight = 70
+severity = "major"
+verbose_name = "inaccurate-erase"
+category = "bug-risk"
+description = """
+Call to "erase-remove" combination without end iterator results in incomplete removal of container elements when more than one element is removed.
+
+<!--more-->
+The `std::remove` method performs removal by shifting the elements in the range in a single pass. It doesn't have any impact on the physical size of the container. The `erase` container method must be invoked to delete the elements with the accurate begin and end iterator.
+
+Consider using `std::erase` or `std::erase_if` functions. These functions are available in C++20 standard library.
+
+## Example
+
+### Bad practice
+
+```cpp
+std::vector<int> nums;
+// add some elements here
+
+// removes all element with value "2" but only erases the element pointed by iterator returned from std::remove
+nums.erase(std::remove(nums.begin(), nums.end(), 2));
+```
+
+### Recommended
+
+```cpp
+std::vector<int> nums;
+// add some elements here
+
+// passing end iterator to erase() ensures all appropriate elements are erased
+nums.erase(std::remove(nums.begin(), nums.end(), 2), nums.end());
+```
+
+## References
+- [Erase–remove idiom](https://en.wikipedia.org/wiki/Erase%E2%80%93remove_idiom)
+"""
+recommended = true

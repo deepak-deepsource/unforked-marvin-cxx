@@ -1,0 +1,34 @@
+title = "Side-effects in the right-hand operand of logical operators (`&&`, and `||`)"
+weight = 70
+severity = "major"
+verbose_name = "side-effect-logical-operand"
+category = "bug-risk"
+description = """
+Having side-effects in a logical operator's right-hand operand can be harmful as they
+may or may not be executed. This can lead to unintended bugs in code.
+Consider using if-else statements to make conditional execution clearer.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int x = 10;
+bool y = x > 10 || --x == 9; // here --x is a conditional execution 
+```
+
+### Recommended
+
+```cpp
+int x = 10;
+bool y = false;
+if (x > 10) {
+    y = true;
+} else {
+    --x; // conditional execution is clear
+    y = true;
+}
+```
+"""

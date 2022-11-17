@@ -1,0 +1,50 @@
+title = "Missing or incorrect invocation of base class copy constructor"
+weight = 70
+severity = "major"
+verbose_name = "copy-ctor-init"
+category = "bug-risk"
+description = """
+An inheriting class with a user-defined copy constructor must call its base class's copy constructor.
+
+<!--more-->
+
+## Example
+
+## Bad practice
+
+```cpp
+class BaseCopy {
+public:
+  BaseCopy() = default;
+  BaseCopy(const BaseCopy &) = default;
+};
+class TheDerivedOne : public BaseCopy {
+  // BaseCopy(D) is missing
+  TheDerivedOne(const TheDerivedOne &D) {} 
+};
+```
+
+Or
+
+```cpp
+class IDeriveToo : public BaseCopy {
+  // D is missing
+  IDeriveToo(const IDeriveToo &D) : BaseCopy() {} 
+};
+```
+
+## Recommended
+
+```cpp
+class BaseCopy {
+public:
+  BaseCopy() = default;
+  BaseCopy(const BaseCopy &) = default;
+};
+class TheDerivedOne : public BaseCopy {
+  // BaseCopy(other) is missing
+  TheDerivedOne(const TheDerivedOne &D) : BaseCopy(D) {}
+};
+```
+"""
+recommended = true

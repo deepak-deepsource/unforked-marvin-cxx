@@ -1,0 +1,40 @@
+title = "Potentially uninitialized variable"
+weight = 70
+severity = "major"
+verbose_name = "potentially-unintialized"
+category = "security"
+description = """
+Uninitialized variables generally return garbage value, with the contents of stack memory
+ before the function was invoked, in most C and C++ release mode built programs.
+An attacker can sometimes control or read these contents. In other languages or conditions,
+ a variable that is not explicitly initialized can be given a default value that has security implications,
+ depending on the logic of the program.
+
+<!--more-->
+
+The presence of an uninitialized variable can sometimes indicate a typographic error 
+in the code. Consider initializing all variables with trusted & sane default values 
+as soon as you declare them.
+
+## Examples
+
+### Bad practice
+
+```cpp
+int val; // unintialized
+printf("%d", val);
+```
+
+### Recommended
+
+```cpp
+int val = 0; // explicit Initialization 
+printf("%d", val);
+```
+
+## References
+- [CWE-457: Use of uninitialized variable](https://cwe.mitre.org/data/definitions/457.html)
+- [Case of Uninitialized Variable Vulnerability](https://msrc-blog.microsoft.com/2008/03/11/ms08-014-the-case-of-the-uninitialized-stack-variable-vulnerability/)
+"""
+tags = ["cwe-457"]
+archived = true

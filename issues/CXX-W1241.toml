@@ -1,0 +1,53 @@
+title = "Control variable of `for` loop modified in body"
+weight = 31
+severity = "minor"
+verbose_name = "mod-control-var-for-loop"
+category = "antipattern"
+description = """
+Modifying the control variable of a `for` loop in its body can make the code harder to read.
+
+Consider using a while loop, or move the modification into the `for` loop's update expression.
+
+<!--more-->
+
+If your code unconditionally requires modification of the control variable within the body, make sure to document (at least as a comment) why this modification is necessary.
+
+Consider adding a `// skipcq: CXX-W1241` comment on the reported line to avoid future reports of this issue in such cases.
+
+## Examples
+
+### Bad practice
+
+```cpp
+for (int i = 0; i < 10; i++) {
+    // ..
+    i++;
+}
+
+for (int i = 0; i < 10; i++) {
+    // ..
+    if (i % 3 == 0) {
+        i++;
+    }
+}
+```
+
+### Recommended
+
+```cpp
+for (int i = 0; i < 10; i += 2) {
+    // ..    
+}
+
+int i = 0;
+while (i < 10) {
+    // ..
+    i++;
+    if (i % 3 == 0) {
+        i++;
+    }
+}
+```
+
+"""
+

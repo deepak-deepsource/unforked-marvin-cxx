@@ -1,0 +1,56 @@
+title = "Dereferencing of function return value on LHS of assignment operator"
+weight = 31
+severity = "minor"
+verbose_name = "deref-function-ret-lhs"
+category = "antipattern"
+description = """
+Dereferencing the return value of a function on the LHS of an assignment can be dangerous due to the risk of an accidental memory leak.
+
+Consider storing the returned pointer in a variable first.
+
+<!--more-->
+
+
+## Examples
+
+### Bad practice
+
+```cpp
+int* ret(int* num) {
+    return num;
+}
+int* ret_leak() {
+    return (int*)malloc(sizeof(int));
+}
+int main() {
+    int t = 10;
+    *ret(&t) = 20;
+    // We forget the returned pointer here, 
+    // which may leak memory.
+    *ret_leak() = 20;
+    printf("%d", t);
+}
+```
+
+### Recommended
+
+```cpp
+int* ret(int* num) {
+    return num;
+}
+int* ret_leak() {
+    return (int*)malloc(sizeof(int));
+}
+int main() {
+    int t = 10;
+    *ret(&t) = 20;
+    int* rl = ret_leak();
+    // The pointer be stored in a local variable,
+    // allowing us to free or reuse it if needed.
+    *rl = 20;
+    printf("%d", t);
+    printf("%d", *rl);
+}
+```
+
+"""

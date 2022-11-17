@@ -1,0 +1,14 @@
+.cache
+
+/target
+/build
+
+/code
+/toolbox
+
+.DS_Store
+.vscode
+
+*.swp
+*.swo
+compile_commands.json

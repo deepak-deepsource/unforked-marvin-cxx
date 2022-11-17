@@ -1,0 +1,33 @@
+title = "Character sequences `/*` and `//` used within a comment"
+weight = 31
+severity = "minor"
+verbose_name = "bad-comment-pattern"
+category = "antipattern"
+description = """
+Using both multi-line and single-line comments makes it harder for the reader to understand the code.
+It also hampers the comment and uncomment functionality provided by IDEs and LSPs.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+/*
+// hello world 
+*/
+
+// /* hello world */
+```
+
+### Recommended
+
+```cpp
+/*
+hello world 
+*/
+
+// hello world
+```
+"""

@@ -1,0 +1,42 @@
+title = "Found shadowing of identifiers from outer scope"
+weight = 70
+severity = "major"
+verbose_name = "shadowing-identifiers"
+category = "bug-risk"
+description = """
+Having identifiers unintentionally shadowed from the outer scope
+by the inner scope can possibly lead to bugs in code. 
+
+Consider using unique identifier names.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int main(int argc, char** argv) {
+    for (int i = 0; i < argc - 1; i++) {
+        int argc = i + 1;
+        // do stuff
+        printf("arg %d of %d", i, argc);
+    }
+}
+```
+
+### Recommended
+
+```cpp
+int main(int argc, char** argv) {
+    for (int i = 0; i < argc; i++) {
+        int argi = i + 1;
+        // do stuff
+        printf("arg %d of %d", i, argc);
+    }
+}
+```
+
+### References
+- [Hilton's Naming Guidelines](https://hilton.org.uk/presentations/naming-guidelines)
+"""

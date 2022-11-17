@@ -1,0 +1,70 @@
+title = "Dangling references in value handles std::string_view"
+weight = 31
+severity = "minor"
+verbose_name = "dangling-handle"
+category = "bug-risk"
+description = """
+The `std::string_view` handle outlives its `std::string` instance. 
+
+The dangling references are created by constructing handles for a temporary `std::string` instance, and the temporary is destroyed after the handle is created and still in use. Note: Handle is still in scope, but the sting instances are destroyed.
+
+<!--more-->
+
+## Example
+
+### Bad practice
+
+```cpp
+// Bad example 1
+string_view SRef = string();
+
+string OtherString;
+// Bad example 2
+View = OtherString + "s";
+
+vector<string_view> V;
+// Bad example 3
+V.push_back(string());
+
+// Bad example 4
+V.resize(3, string());  
+
+string_view f() {
+  // Bad example 5: Following return value will dangle
+  return string();
+
+  string S;
+  return S;
+
+  char Array[10]{};
+  return Array;
+}
+```
+
+### Recommended
+
+```cpp
+string S = string();
+string_view SRef = S;
+
+string MoreString = S + "s";
+string_view View = MoreString;
+
+vector<string_view> V;
+string S = string();
+V.push_back(S);
+
+V.resize(3, S);  
+
+string f() {
+  /// Returning a reference to string should be avoided, as NRVO will take care of optimising the memory allocation
+  return string();
+
+  string S;
+  return S;
+
+  char Array[10]{};
+  return Array;
+}
+```
+"""

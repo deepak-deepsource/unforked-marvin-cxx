@@ -1,0 +1,30 @@
+title = "Empty `if/else/while/for` statement"
+weight = 31
+severity = "minor"
+verbose_name = "empty-if-else-while-for"
+category = "antipattern"
+description = """
+Using empty blocks for `if/else/while/for` is redundant,
+consider removing the entire statement altogether.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int x = 0;
+if (true) {} // redundant
+while (false) {} // redundant
+printf("%d", x);
+```
+
+### Recommended
+
+```cpp
+int x = 0;
+printf("%d", x);
+```
+"""
+

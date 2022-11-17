@@ -1,0 +1,36 @@
+title = "Unused parameters in functions"
+weight = 31
+severity = "minor"
+verbose_name = "unused-param-in-fns"
+category = "antipattern"
+description = """
+Unused parameters create unnecessary noise in code, making it harder to read and understand.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+void test(int unused, bool cond) {
+    if (cond) {
+        // ..
+    } else {
+        // ..
+    }
+}
+```
+
+### Recommended
+
+```cpp
+void test(bool cond) {
+    if (cond) {
+        // ..
+    } else {
+        // ..
+    }
+}
+```
+"""

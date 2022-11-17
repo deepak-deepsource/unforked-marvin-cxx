@@ -1,0 +1,29 @@
+title = "Loop body is not enclosed in `{}`"
+weight = 31
+severity = "minor"
+verbose_name = "braceless-loop-body"
+category = "antipattern"
+description = """
+Loop body not being enclosed in `{}` can make it confusing and hard to read,
+hence consider using `{}` for loop body.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int x = 0;
+while (x < 10) x++;
+```
+
+### Recommended
+
+```cpp
+int x = 0;
+while (x < 10) {
+    x++;
+}
+```
+"""

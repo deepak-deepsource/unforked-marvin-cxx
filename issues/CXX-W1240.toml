@@ -1,0 +1,40 @@
+title = "Non-standard for statement"
+weight = 31
+severity = "minor"
+verbose_name = "non-standard-for"
+category = "antipattern"
+description = """
+Consider using `while` instead if you want the driver for the loop control-variable outside of the `for` statement.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int main(int argc, char** argv) {
+    for (int i = 0; i < argc - 1;) {
+        printf("arg %d of %d", i, argc);
+        i++; // bad
+    }
+}
+```
+
+### Recommended
+
+```cpp
+int main(int argc, char** argv) {
+    for (int i = 0; i < argc - 1; i++) {
+        printf("arg %d of %d", i, argc);
+    }
+}
+int main(int argc, char** argv) {
+    int i = 0; 
+    while (i < argc - 1) {
+        printf("arg %d of %d", i, argc);
+        i++;
+    }
+}
+```
+"""

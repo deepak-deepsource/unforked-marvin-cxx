@@ -1,0 +1,37 @@
+title = "Identifier names are typographically ambiguous"
+weight = 70
+severity = "major"
+verbose_name = "ambigous-identifiers"
+category = "bug-risk"
+description = """
+Identifiers with typographically ambiguous names can be hard to read 
+and adds unnecessary responsibility on the developer to be careful with the
+exact identifiers they are using.
+
+<!--more-->
+
+Clear names are always preferred to ambiguous names, consider following a
+specified convention across the project to simplify the process of naming.
+
+## Examples
+
+### Bad practice
+
+```cpp
+int FOO = 10;
+int FO0 = 20;
+int foo = 30; // typographically close names
+```
+
+### Recommended
+
+```cpp
+int foo = 10;
+int bar = 20;
+int qux = 30; // explicitly different names
+```
+
+### References
+- [Hilton's Naming Guidelines](https://hilton.org.uk/presentations/naming-guidelines)
+"""
+

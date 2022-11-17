@@ -1,0 +1,50 @@
+title = "Calling non-direct base class virtual method"
+weight = 70
+severity = "major"
+verbose_name = "parent-virtual-call"
+category = "bug-risk"
+description = """
+Virtual method from non-direct base class is called when there exists an overridden method in direct base class.
+
+## Example
+
+### Bad practice
+
+```cpp
+class A {
+protected:
+  int virtual foo() {...}
+};
+
+class B: public A {
+protected:
+  int foo() override {...}
+};
+
+class C: public B {
+protected:
+  // foo is overridden in class B, but virtual method from class A is invoked
+  int foo() override { A::foo(); }
+};
+```
+
+### Recommended
+
+```cpp
+class A {
+protected:
+  int virtual foo() {...}
+};
+
+class B: public A {
+protected:
+  int foo() override {...}
+};
+
+class C: public B {
+protected:
+  int foo() override { B::foo(); }
+};
+```
+"""
+recommended = true

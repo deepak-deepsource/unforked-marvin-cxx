@@ -1,0 +1,42 @@
+title = "Array-index variable with possibly unchecked bounds"
+weight = 70
+severity = "major"
+verbose_name = "array-index-unchecked"
+category = "security"
+description = """
+Index variables need to be bound checked against the valid range of the array,
+as trying to read beyond the array buffer could cause segmentation-faults.
+
+<!--more-->
+
+If you index an array with a dynamic value, make sure to check the bounds
+of the value before using it as an index.
+
+## Examples
+
+### Bad practice
+
+```cpp
+int arr[10] = {};
+int var = 0;
+std::cin >> var;
+arr[var] = "1"; // very risky security vulnerability, as it may
+// Allow for reading or writing to unintended parts of the memory.
+```
+
+### Recommended
+
+```cpp
+int arr[10] = {};
+int var = 0;
+std::cin >> var;
+if (var >= 0 && var < 10) { // bound check before access
+    arr[var] = "1";
+}
+```
+
+## References
+- [CWE-129: Improper Validation of Array Index](https://cwe.mitre.org/data/definitions/129.html)
+"""
+tags = ["cwe-129"]
+archived = true

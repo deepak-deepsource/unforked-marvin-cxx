@@ -1,0 +1,39 @@
+title = "Suspicious `sizeof()` in `strncpy`, `strncat`, or `memcpy`"
+weight = 70
+severity = "major"
+verbose_name = "suspicious-sizeof"
+category = "security"
+description = """
+Using `sizeof()` on pointers would return the complete size of the pointer only if it's from the local scope.
+
+<!--more-->
+
+Hence consider using `strlen` over `sizeof` to get the size of the desired string 
+if possible. If you are performing the copy over memory, you can use capacity 
+search, but it may be fallible.
+
+Generally, prefer taking the size of the expected variables as function arguments.
+
+## Examples
+
+### Bad practice
+
+```cpp
+void cpy(const char* src, const char* dst) {
+    memcpy(dst, src, sizeof(dst));
+}
+```
+
+### Recommended
+
+```cpp
+void cpy(const char* src, const char* dst, size_t src_size, size_t dst_size) {
+    memcpy(dst, src, min(src_size, dst_size));
+}
+```
+
+## References
+- [CWE-467: Use of `sizeof()` on a pointer-type](https://cwe.mitre.org/data/definitions/467.html)
+"""
+tags = ["cwe-467"]
+recommended = true

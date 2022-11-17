@@ -1,0 +1,9 @@
+# Build
+timeout: 40m0s
+steps:
+  - name: "gcr.io/kaniko-project/executor:v1.6.0"
+    args:
+      - --destination=us.gcr.io/deepsource-dev/marvin-cxx:dev
+      - --dockerfile=Dockerfile
+      - --cache=false
+      - --snapshotMode=redo

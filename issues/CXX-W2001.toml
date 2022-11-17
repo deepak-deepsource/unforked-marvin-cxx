@@ -1,0 +1,53 @@
+title = "Loss of precision due to interger division casted to floating point"
+weight = 50
+severity = "major"
+verbose_name = "integer-division"
+category = "bug-risk"
+description = """
+Division of int or long type values while expecting a value type as floating point might cause loss of precision.
+
+<!--more-->
+An expression with implicit cast to floating-point with only integer operands, results in the loss of precision.
+
+Consider using a floating point types for parts of division expression to promote all integers to floats before operations or if this is intentional, then use the explicit conversion to float type.
+
+For example,
+`float f = (float)(1 / 10);`
+
+## Example
+
+### Bad practice
+
+```cpp
+void func_expecting_float(float p);
+int foo(int param) {
+  ///
+  /// if param = 2, then d will be 10.0
+  /// while with mathematical meaning 
+  /// of the symbols it should be 2.5
+  ///
+  double d = 10 * 2 / (5 / param);   
+
+  /// a similar problem exist here
+  func_expecting_float(5 + 7 / param);
+}
+```
+
+### Recommended
+
+```cpp
+void func_expecting_float(float p);
+int foo(int param) {
+  ///
+  /// if param = 2, value will be
+  /// as expected 2.5
+  ///
+  double d = 10 * 2 / (5.0 / param);
+
+  /// explicit type casting shows
+  /// that the cast is intentional
+  func_expecting_float((int)(5 + 7 / param));
+}
+```
+"""
+recommended = true

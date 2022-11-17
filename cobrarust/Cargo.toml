@@ -1,0 +1,21 @@
+[package]
+name = "cobrarust"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# for compile time hashmaps
+phf = "0.11.1"
+phf_macros = "0.11.1"
+
+# to walk directories recursively
+walkdir = "2.3.2"
+
+# serialize & deserialize
+serde = { version = "1.0.144", features = ["derive"] }
+# json support
+serde_json = "1.0.85"
+
+log = { version = "0.4.17" }

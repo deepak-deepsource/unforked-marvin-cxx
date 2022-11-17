@@ -1,0 +1,47 @@
+title = "Infinite loop"
+weight = 70
+severity = "major"
+verbose_name = "infinite-loop"
+category = "bug-risk"
+description = """
+A loop without an exit statement will never terminate.
+
+<!--more-->
+
+A loop is considered infinite if it does not have any loop exit statement
+(break, continue, goto, return, throw, or a call to a function called as [[noreturn]])
+and all of the following conditions hold true for every variable in the condition:
+
+* It is a local variable
+* It has no reference or pointer aliases
+* It is not a structure or class member
+
+## Example
+
+### Bad practice
+
+```cpp
+for (int i=0, j=0; i<10; ++j) {
+  // no change in control variable `i`
+}
+
+int i = 0;
+while(i < 10) {
+  // no change in control variable `i`
+}
+```
+
+### Recommended
+
+```cpp
+for (int i=0, j=0; i<10; ++i, ++j) {
+  ;
+}
+
+int i = 0;
+while(i < 10) {
+  ;
+}
+```
+"""
+archived = true

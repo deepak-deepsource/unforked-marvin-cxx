@@ -1,0 +1,43 @@
+title = "Unintended implicit conversion of a boolean pointer in a condition"
+weight = 50
+severity = "major"
+verbose_name = "bool-pointer-implicit-conversion"
+category = "bug-risk"
+description = """
+A pointer to the boolean type is used in the `if` condition with implicit conversion. The same pointer is never dereferenced.
+
+<!--more-->
+
+A boolean pointer that is never dereferenced and is only directly referenced within a boolean expression indicates a possible missing dereference operation.
+
+## Example
+
+### Bad practice
+
+```cpp
+void func(const bool *status) {
+  /// here status is never dereferenced
+  if (status);
+}
+```
+
+### Recommended
+
+```cpp
+void func(const bool *status) {
+  // seems intentional
+  if (status && *status);
+}
+```
+
+or
+
+```cpp
+void func(const bool *status) {
+  // seems intentional
+  if (status)
+    std::cout << "Status: " << *status << "std::endl";
+}
+```
+"""
+recommended = true

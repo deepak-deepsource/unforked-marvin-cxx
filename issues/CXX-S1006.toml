@@ -1,0 +1,37 @@
+title = "Possibly missing `sizeof()` in memory allocation"
+weight = 50
+severity = "major"
+verbose_name = "missing-sizeof-in-mem-alloc"
+category = "security"
+description = """
+The `malloc` function usually expects a memory size value in units (usually `byte`) 
+when allocating any type. Use `sizeof(type) * number_of_values` as the size argument 
+for `malloc` to avoid making mistakes.
+
+<!--more-->
+
+It is a good practice to use `sizeof(type)` with `malloc` and other memory allocation
+functions because many types can have variable `size` in bytes depending on the  platform used.
+
+For instance, many of the default integer types in C & C++ such as, 'int', are 
+platform-dependent.
+
+## Examples
+
+### Bad practice
+
+```cpp
+int* ints = (int*)malloc(64);
+```
+
+### Recommended
+
+```cpp
+int* ints = (int*)malloc(sizeof(int) * 16);
+```
+
+## References
+- [`malloc` docs](https://en.cppreference.com/w/cpp/memory/c/malloc)
+
+"""
+recommended = true

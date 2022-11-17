@@ -1,0 +1,35 @@
+title = "Unused variable declaration in block"
+weight = 31
+severity = "minor"
+verbose_name = "unused-var"
+category = "antipattern"
+description = """
+There are one or more unused variables in this block. Such variables add unnecessary noise to the codebase.
+
+Consider removing them. 
+
+<!--more-->
+
+
+## Examples
+
+### Bad practice
+
+```cpp
+void main() {
+    int i = 10; // unused
+    int j = 101;
+    printf("%d", j);
+}
+```
+
+### Recommended
+
+```cpp
+void main() {
+    int j = 101;
+    printf("%d", j);
+}
+```
+"""
+archived = true

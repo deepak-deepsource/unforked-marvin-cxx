@@ -1,0 +1,35 @@
+title = "Risky cast after possibly misaligned pointer offset"
+weight = 50
+severity = "major"
+verbose_name = "potentially-misaligned-cast"
+category = "security"
+description = """
+Pointer offset(or any other arithmetic operation) on a pointer casted to a different type (than its original type) is risky and can result in undefined behaviour. The reason for such behaviour is that the memory alignment may change for types on every targeted platform.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+void foo() {
+    int i[2] = {10, 20};
+    // The following code will not work on platforms
+    //  where width of `int` may not be `4` `char`(s)
+    int j = *(int*)((char*)i + 4);
+}
+```
+
+## Recommended
+
+```cpp
+void foo() {
+    int i[2] = {10, 20};
+    int j = *(int*)(i + 1); // will work irrespective of the
+    // platform defined size of int
+}
+```
+
+"""
+recommended = true

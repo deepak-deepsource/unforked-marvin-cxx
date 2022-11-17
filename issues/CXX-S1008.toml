@@ -1,0 +1,31 @@
+title = "Untrusted format string"
+weight = 70
+severity = "major"
+verbose_name = "untrusted-format-string"
+category = "security"
+description = """
+If the source of a format string is `untrusted` then there is a chance that the 
+format expected would break or the untrusted source may be able to insert 
+malicious stuff into your code.
+
+<!--more-->
+
+The only way to use such strings is to thoroughly validate them before usage. 
+Still, your validation may fail, so it's recommended against using such code.
+
+## Examples
+
+### Bad practice
+
+```cpp
+printf(user_input, value); // format string is untrusted
+// Try to avoid such cases or use custom functions that validate and escape 
+// possible issues with the input.
+```
+
+## References
+- [CWE-134: Use of Externally-Controlled format string](https://cwe.mitre.org/data/definitions/134.html)
+- [OWASP: Format string attack](https://owasp.org/www-community/attacks/Format_string_attack)
+"""
+tags = ["cwe-134"]
+archived = true

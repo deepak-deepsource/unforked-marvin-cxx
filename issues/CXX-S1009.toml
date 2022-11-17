@@ -1,0 +1,30 @@
+title = "Source of `memcpy` is untrusted parameter"
+weight = 70
+severity = "major"
+verbose_name = "untrusted-read-src"
+category = "security"
+description = """
+The `memcpy` function will copy bytes from `src` to `dst` even if `dst` is a 
+security-critical memory section. In general, such arguments may cause buffer 
+overruns and thus lead to potential security exploits.
+
+<!--more-->
+
+Consider not using an untrusted source for `memcpy()`, `src` or `count`.
+
+## Examples
+
+### Bad practice
+
+```cpp
+int var = 0;
+std::cin >> var;
+int dst = 0;
+memcpy(&dst, &var, sizeof(int)); // source is untrusted
+```
+
+## References
+- [OWASP: Security against untrusted inputs](https://owasp.org/www-project-mobile-top-10/2014-risks/m8-security-decisions-via-untrusted-inputs)
+- [Bug: untrusted source](https://patchwork.kernel.org/project/linux-wireless/patch/20200616132544.17478-1-bruceshenzk@gmail.com/)
+"""
+archived = true

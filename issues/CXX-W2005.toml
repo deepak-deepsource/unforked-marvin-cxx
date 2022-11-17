@@ -1,0 +1,37 @@
+title = "Possible loss of precision due to iterator element type-casting in `std::accumulate`"
+weight = 70
+severity = "major"
+verbose_name = "fold-init-type"
+category = "bug-risk"
+description = """
+`std::accumulate` folds the elements to the initial value type (provided as the last argument to `std::accumulate`). When the initial value type is narrower than that of the elements to sum, there is a loss in precision.
+
+<!--more-->
+
+## Example
+
+### Bad practice
+
+```cpp
+// Loss due to truncation
+a = {0.1f, 0.2f, 0.3f}
+std::accumulate(begin(a), end(a), 0);
+
+// Loss due to overflow
+a = {65536LL * 65536 * 65536};
+std::accumulate(begin(a), end(a), 0);
+```
+
+### Recommanded
+
+```cpp
+a = {0.1f, 0.2f, 0.3f}
+accumulate(begin(a), end(a), 0.0);
+```
+OR
+```cpp
+a = {0.1f, 0.2f, 0.3f}
+accumulate<vector<float>::iterator, float>(begin(a), end(a), 0);
+```
+"""
+recommended = true

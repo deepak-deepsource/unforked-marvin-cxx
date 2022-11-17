@@ -1,0 +1,62 @@
+title = "Unbound checked function calls lacking external bounds checking"
+weight = 70
+severity = "major"
+verbose_name = "lack-of-bound-check"
+category = "security"
+description = """
+Certain functions do not perform bound checks internally, leading to segmentation faults 
+if the caller does not explicitly perform bound checks. Avoid calling such functions
+without explicitly checking the buffer bounds against the provided value first.
+
+<!--more-->
+
+Make sure to perform a bound check before every call to a dangerous function,
+as global bounds checks may not always hold true at the time the "callsite" is reached.
+
+C users must avoid using dangerous functions that do not check bounds unless they've ensured
+that the bounds will never get exceeded.
+
+Functions to avoid in most cases (or ensure protection) include the functions,
+
+- `strcpy()`,
+- `strcat()`,
+- `sprintf()` (with cousin `vsprintf()`),
+- and, `gets()`.
+
+These should be replaced with functions such as
+- `strncpy()`,
+- `strncat()`,
+- `snprintf()`,
+- and `fgets()` respectively.
+
+Other dangerous functions that may permit buffer overruns (depending on their use)
+include,
+- `realpath()`,
+- `getopt()`,
+- `getpass()`,
+- `streadd()`,
+- `strecpy()`,
+- and, `strtrns()`.
+
+## Examples
+
+### Bad practice
+
+```cpp
+char* src = "this is a long one I think";
+char dst[10] = {};
+strcpy(dst, src); // needs bound checking to see if `dst` can store `src`
+```
+
+### Recommended
+
+```cpp
+char* src = "this is a long one I think";
+char dst[10] = {};
+if strlen(dst) >= strlen(src) { // bound checked
+    strcpy(dst, src);
+}
+```
+
+"""
+recommended = true

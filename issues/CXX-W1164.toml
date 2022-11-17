@@ -1,0 +1,50 @@
+title = "Missing default case in switch statement"
+weight = 31
+severity = "minor"
+verbose_name = "missing-default-in-switch"
+category = "antipattern"
+description = """
+Default case provides switch statements with fallback, and in general is a good to have.
+Hence consider adding default case to switch.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int x = 10;
+switch x {
+    case 1: {
+        printf("You chose 1.");
+        break;
+    }
+    case 2: {
+        printf("You chose 2.");
+        break;
+    }
+}
+```
+
+### Recommended
+
+```cpp
+int x = 10;
+switch x {
+    case 1: {
+        printf("You chose 1.");
+        break;
+    }
+    case 2: {
+        printf("You chose 2.");
+        break;
+    }
+    default: {
+        printf("Invalid choice!");
+        break;
+    }
+}
+```
+"""
+

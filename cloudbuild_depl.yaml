@@ -1,0 +1,27 @@
+# Build
+timeout: 20m0s
+
+steps:
+  - name: "gcr.io/kaniko-project/executor:v1.6.0"
+    args:
+      - --destination=us.gcr.io/deepsource-production/marvin-cxx:$TAG_NAME
+      - --dockerfile=Dockerfile
+      - --cache=false
+      - --snapshotMode=redo
+
+  - name: 'curlimages/curl'
+    args:
+      [
+        '--location',
+        '--request', 'POST',
+        '--header', "Authorization: Bearer ${_DATASYNC_SECRET}",
+        '--header', 'Content-Type: application/json',
+        '--data-raw', '{"query":" mutation($input: TriggerAnalyzerSyncInput!){\n    triggerAnalyzerSync(input: $input){\n        ok\n    }\n}","variables":{"input":{"repoName":"marvin-cxx","tag":"$TAG_NAME"}}}',
+        'https://deepsource.io/internal/graphql/'
+      ]
+
+substitutions:
+  _DATASYNC_SECRET: datasyncsecret
+
+options:
+  machineType: 'N1_HIGHCPU_8'

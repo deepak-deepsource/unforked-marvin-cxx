@@ -1,0 +1,38 @@
+title = "Side effect in array index"
+weight = 31
+severity = "minor"
+verbose_name = "array-index-side-effect"
+category = "antipattern"
+description = """
+Avoid side effects when indexing arrays, as such code reduces readability.
+
+Consider breaking the index operation into multiple statements instead.
+
+<!--more-->
+
+
+## Examples
+
+### Bad practice
+
+```cpp
+int x = 0;
+int items[10] = {};
+while (x < 10) {
+    int item = items[x++];
+}
+```
+
+### Recommended
+
+```cpp
+int x = 0;
+int items[10] = {};
+while (x < 10) {
+    int item = items[x];
+    x++;
+}
+```
+
+"""
+

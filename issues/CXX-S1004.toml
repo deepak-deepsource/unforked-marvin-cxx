@@ -1,0 +1,40 @@
+title = "Using `printf` or `scanf` without width-limit on `%s`"
+weight = 70
+severity = "major"
+verbose_name = "no-width-limit-input"
+category = "security"
+description = """
+Using I/O operations such as `printf` and `scanf` without setting width limits for format strings can allow for buffer overflow when reading from a stdin pipe or writing to a stdout pipe.
+
+<!--more-->
+
+You can limit the width for format strings by providing it between the `%` and `s`,
+as the `<width>`(any positive decimal integer).
+
+Such as this: `%<width>s`.
+
+Limit the width of string specifiers by adding a maximum width for I/O operations, as outlined above.
+
+## Examples
+
+### Bad practice
+
+```cpp
+char str[10];
+scanf("%s", str);
+```
+
+### Recommended
+
+```cpp
+char str[10];
+scanf("%10s", str);
+```
+
+## References
+- [msdn on scanf width](https://learn.microsoft.com/en-us/cpp/c-runtime-library/scanf-width-specification)
+- [scanf docs](https://cplusplus.com/reference/cstdio/scanf/)
+- [CWE-120: Buffer Copy without Checking Size of Input ('classic buffer-overflow')](https://cwe.mitre.org/data/definitions/120.html)
+"""
+tags = ["cwe-120"]
+recommended = true

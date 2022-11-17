@@ -1,0 +1,33 @@
+title = "Potential heap memory use after free"
+weight = 70
+severity = "major"
+verbose_name = "potential-use-after-free"
+category = "security"
+description = """
+Using memory after it's been freed can lead to attempting to access memory that 
+may belong to another value. Or an invalid memory section leads to undefined 
+behavior such as segmentation faults.
+
+<!--more-->
+
+Consider not using conditional free if you want to use the value later.
+
+## Examples
+
+### Bad practice
+
+```cpp
+int* mem = (int*)malloc(sizeof(int));
+*mem = 10;
+if (rand() % 10 == 0) {
+    free(mem);
+}
+printf("%d", *mem); // possibly use after free
+```
+
+## References
+- [OWASP: Using freed memory](https://owasp.org/www-community/vulnerabilities/Using_freed_memory)
+- [CWE-416: Use after free](https://cwe.mitre.org/data/definitions/416.html)
+"""
+tags = ["cwe-416"]
+recommended = true

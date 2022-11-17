@@ -1,0 +1,41 @@
+title = "Switch statement with a single-clause"
+weight = 31
+severity = "minor"
+verbose_name = "switch-with-too-few-cases"
+category = "antipattern"
+description = """
+Switch statements should have more than one clause for them to be any more useful over an `if-else` construct.
+
+Consider rewriting the `switch` as `if-else` or adding additional clauses to silence this issue.
+
+<!--more-->
+
+## Examples
+
+### Bad practice
+
+```cpp
+int foo(int bar) {
+    switch bar {
+        case 0: {
+            // ..
+        } break;
+        default: {
+            // ..
+        }
+    }
+}
+```
+
+### Recommended
+
+```cpp
+int foo(int bar) {
+    if bar == 0 {
+        // ..
+    } else {
+        // ..
+    }
+}
+```
+"""
